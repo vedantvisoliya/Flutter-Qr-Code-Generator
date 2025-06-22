@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_code_generator_app/components/my_button.dart';
 import 'package:qr_code_generator_app/pages/qr_page.dart';
@@ -13,8 +14,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   TextEditingController textController = TextEditingController();
-
   String? error;
+  FocusNode myFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -111,28 +112,53 @@ class _HomePageState extends State<HomePage> {
         
                 Container(
                   margin: const EdgeInsets.only(bottom: 20.0),
-                  child: MyButton(
-                    onTap: () {
-                      if (textController.text.isNotEmpty) {
-                        setState(() {
-                          error = ""; 
-                        });
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => QrPage(
-                              data: textController.text,
+                  child: KeyboardListener(
+                    focusNode: myFocusNode,
+                    onKeyEvent: (event) {
+                      if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.enter) {
+                        if (textController.text.isNotEmpty) {
+                          setState(() {
+                            error = ""; 
+                          });
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => QrPage(
+                                data: textController.text,
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }
+                        else {
+                          setState(() {
+                            error = "Error: please enter something.";
+                          });
+                        }
                       }
-                      else {
-                        setState(() {
-                          error = "Error: please enter something.";
-                        });
-                      }
-                    }, 
-                    text: "Generate"
+                    },
+                    child: MyButton(
+                      onTap: () {
+                        if (textController.text.isNotEmpty) {
+                          setState(() {
+                            error = ""; 
+                          });
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => QrPage(
+                                data: textController.text,
+                              ),
+                            ),
+                          );
+                        }
+                        else {
+                          setState(() {
+                            error = "Error: please enter something.";
+                          });
+                        }
+                      }, 
+                      text: "Generate"
+                    ),
                   ),
                 ),
               ],
