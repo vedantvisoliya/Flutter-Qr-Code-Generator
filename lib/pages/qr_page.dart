@@ -60,17 +60,12 @@ class _QrPageState extends State<QrPage> {
               children: [
                 const SizedBox(height: 35,),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "QR Generated",
-                      style: GoogleFonts.poppins(
-                        fontSize: 27,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                Text(
+                  "QR Generated",
+                  style: GoogleFonts.poppins(
+                    fontSize: 27,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
         
                 const SizedBox(height: 30.0,),
